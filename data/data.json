@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Shopping list",
+    "created": "2021.06.11",
+    "category": "Task",
+    "content": "Tomatoes, bread",
+    "dates": [],
+    "_id": 1,
+    "_archived": false
+  },
+  {
+    "name": "The theory of evolution",
+    "created": "2021.06.11",
+    "category": "Random Thought",
+    "content": "The evolution...",
+    "dates": [],
+    "_id": 2,
+    "_archived": false
+  },
+  {
+    "name": "New Feature",
+    "created": "2021.06.11",
+    "category": "Idea",
+    "content": "Implement new ...",
+    "dates": [],
+    "_id": 3,
+    "_archived": false
+  }
+]
