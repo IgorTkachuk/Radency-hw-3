@@ -2,12 +2,14 @@ var express = require("express");
 var router = express.Router();
 
 var data = require("../data/data.json");
+const schema = require("../data/schema");
 
-/* GET notes listing. */
+/* Get all notes. */
 router.get("/", function (req, res, next) {
   res.send(data);
 });
 
+/* Get aggregated data statistics */
 router.get("/stats", function (req, res, next) {
   const stats = data.reduce((acc, note) => {
     let categoryInstance = acc.find((el) => el.category === note.category);
@@ -29,6 +31,7 @@ router.get("/stats", function (req, res, next) {
   res.send(stats);
 });
 
+/* Retrieve item */
 router.get("/:id", function (req, res, next) {
   let { id } = req.params;
   id = +id;
@@ -42,21 +45,33 @@ router.get("/:id", function (req, res, next) {
   res.sendStatus(404);
 });
 
+/* Create a note object */
 router.post("/", function (req, res, next) {
   const newNote = { ...req.body };
   const created = new Date().toLocaleDateString();
   const _archived = false;
   const _id = Date.now();
 
-  data.push({
+  const note = {
     ...newNote,
     created,
     _archived,
     _id,
-  });
-  res.send(data);
+  };
+
+  schema
+    .validate(note)
+    .then((_) => {
+      data.push(note);
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(400);
+      res.send({ err: err.message });
+    });
 });
 
+/* Edit item */
 router.patch("/:id", function (req, res, next) {
   const updData = { ...req.body };
 
@@ -65,17 +80,30 @@ router.patch("/:id", function (req, res, next) {
   const idx = data.findIndex((el) => el._id === id);
 
   if (idx != -1) {
-    data[idx] = {
+    const updatedNote = {
       ...data[idx],
       ...updData,
     };
-    res.send(data[idx]);
+
+    schema
+      .validate(updatedNote)
+      .then((_) => {
+        data[idx] = updatedNote;
+        res.send(data[idx]);
+      })
+      .catch((err) => {
+        res.status(400);
+        res.send({ err: err.message });
+      });
+
     return;
   }
 
-  res.sendStatus(404);
+  res.status(404);
+  res.send({ err: `Note with id = ${id} not found` });
 });
 
+/* Remove item */
 router.delete("/:id", function (req, res, next) {
   let { id } = req.params;
   id = +id;

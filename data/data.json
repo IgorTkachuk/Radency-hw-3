@@ -1,7 +1,7 @@
 [
   {
     "name": "Shopping list",
-    "created": "2021.06.11",
+    "created": "11.06.2021",
     "category": "Task",
     "content": "Tomatoes, bread",
     "dates": [],
@@ -10,7 +10,7 @@
   },
   {
     "name": "The theory of evolution",
-    "created": "2021.06.11",
+    "created": "11.06.2021",
     "category": "Random Thought",
     "content": "The evolution...",
     "dates": [],
@@ -19,7 +19,7 @@
   },
   {
     "name": "New Feature",
-    "created": "2021.06.11",
+    "created": "11.06.2021",
     "category": "Idea",
     "content": "Implement new ...",
     "dates": [],
